@@ -5,6 +5,7 @@ An end-to-end data project for NSE/BSE stocks. It covers the full path a data an
 > **Results here come from synthetic (simulated) markets, not real NSE/BSE prices.** They show the pipeline works end to end and that the model is tested honestly. They are not evidence that it makes money. Real-data validation and paper trading are next. Not financial advice.
 
 ![Power BI overview page](docs/screenshots/01_overview.png)
+*Power BI overview of one example market (seed 1, with a hidden pattern). That run ended about flat against its benchmark. The averages across all 10 runs are in the Results table below.*
 
 ## What it does
 
