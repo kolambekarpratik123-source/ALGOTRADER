@@ -1,0 +1,86 @@
+table dim_date
+	lineageTag: 8b976cf8-03de-59bc-abcd-45bad540cc12
+	dataCategory: Time
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		isKey
+		lineageTag: 26bd6c48-5fe5-5290-97b8-258186800d3d
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = User
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: c3127d0b-1bb8-5e7b-a440-d81ae5cd6d84
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = User
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: d369ec95-b0e7-55dc-a5a4-0cf98015db75
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = User
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: e840188d-209b-52d4-af65-56687b6fc66c
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = User
+
+	column month_name
+		dataType: string
+		lineageTag: 1b62ee41-dcc8-575f-9bf0-96f022349cc6
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: month
+
+		annotation SummarizationSetBy = User
+
+	column year_month
+		dataType: string
+		lineageTag: 427c0c3c-6f53-5728-92cb-66c4d37adfec
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = User
+
+	column week_of_year
+		dataType: int64
+		formatString: 0
+		lineageTag: c562e2c9-452b-5995-a62e-5d3657e4b98c
+		summarizeBy: none
+		sourceColumn: week_of_year
+
+		annotation SummarizationSetBy = User
+
+	column weekday_name
+		dataType: string
+		lineageTag: a1d244de-4a4d-5a16-a2f2-f568313eed25
+		summarizeBy: none
+		sourceColumn: weekday_name
+
+		annotation SummarizationSetBy = User
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_date.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"date", type date}, {"year", Int64.Type}, {"quarter", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"year_month", type text}, {"week_of_year", Int64.Type}, {"weekday_name", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

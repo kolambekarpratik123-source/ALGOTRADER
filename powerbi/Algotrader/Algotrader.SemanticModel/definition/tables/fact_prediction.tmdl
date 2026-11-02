@@ -1,0 +1,95 @@
+table fact_prediction
+	lineageTag: 9efbac31-8d94-526b-b5d5-1b3b6990ce12
+
+	/// Average actual return of the stocks the model ranked in its top K
+	measure 'Top Pick Return %' =
+			VAR k = MAX ( dim_run[top_k] )
+			RETURN CALCULATE ( AVERAGE ( fact_prediction[fwd_return] ), fact_prediction[rank_in_day] <= k )
+		formatString: 0.00%
+		lineageTag: 1862fc5e-1be2-58e7-926f-e72ffaa0f682
+
+	/// Average actual return of all stocks
+	measure 'Avg Stock Return %' =
+			AVERAGE ( fact_prediction[fwd_return] )
+		formatString: 0.00%
+		lineageTag: 915b06c9-830b-505d-a0ba-3a2e274d2980
+
+	/// How much better the top picks did than the average stock
+	measure 'Pick Edge %' =
+			[Top Pick Return %] - [Avg Stock Return %]
+		formatString: 0.00%
+		lineageTag: bfe8e4f3-0d47-5c19-a524-8f4ef20b2676
+
+	column run_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d32769c0-ed92-5462-94a2-0958b326f0a8
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = User
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 3895e495-1062-58fd-8817-75b399fe470a
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = User
+
+	column symbol
+		dataType: string
+		lineageTag: a279c3bc-8c4a-5f05-be7b-521369254957
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = User
+
+	column score
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 314e5246-5b8a-556d-a54a-e850a2f33aa0
+		summarizeBy: none
+		sourceColumn: score
+
+		annotation SummarizationSetBy = User
+
+	column rank_in_day
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a845133-1eaf-5669-ad8c-1b909b65ddc8
+		summarizeBy: none
+		sourceColumn: rank_in_day
+
+		annotation SummarizationSetBy = User
+
+	column fwd_return
+		dataType: double
+		formatString: 0.00%
+		lineageTag: adc60fd7-9b70-5ee8-9799-c1cfa06497c3
+		summarizeBy: none
+		sourceColumn: fwd_return
+
+		annotation SummarizationSetBy = User
+
+	column fold
+		dataType: int64
+		formatString: 0
+		lineageTag: bd5a9672-cf7d-5dd6-b5c2-ec8a6b6fb1a7
+		summarizeBy: none
+		sourceColumn: fold
+
+		annotation SummarizationSetBy = User
+
+	partition fact_prediction = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_prediction.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"run_id", Int64.Type}, {"date", type date}, {"symbol", type text}, {"score", type number}, {"rank_in_day", Int64.Type}, {"fwd_return", type number}, {"fold", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

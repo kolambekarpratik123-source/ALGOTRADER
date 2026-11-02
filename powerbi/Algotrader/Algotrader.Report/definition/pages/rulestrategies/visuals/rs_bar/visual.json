@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "rs_bar",
+  "position": {
+    "x": 20,
+    "y": 85,
+    "z": 10,
+    "height": 615,
+    "width": 820,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_strategy_backtest"
+                    }
+                  },
+                  "Property": "strategy"
+                }
+              },
+              "queryRef": "fact_strategy_backtest.strategy",
+              "nativeQueryRef": "strategy",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_strategy_backtest"
+                    }
+                  },
+                  "Property": "Avg Strategy Return %"
+                }
+              },
+              "queryRef": "fact_strategy_backtest.Avg Strategy Return %",
+              "nativeQueryRef": "Avg Strategy Return %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_strategy_backtest"
+                    }
+                  },
+                  "Property": "Avg Buy-Hold Return %"
+                }
+              },
+              "queryRef": "fact_strategy_backtest.Avg Buy-Hold Return %",
+              "nativeQueryRef": "Avg Buy-Hold Return %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average return per strategy vs. buy-and-hold'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

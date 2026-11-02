@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Algotrader"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a6e9663f-0130-5aa6-a1a3-a9f3b0075c4b"
+  }
+}

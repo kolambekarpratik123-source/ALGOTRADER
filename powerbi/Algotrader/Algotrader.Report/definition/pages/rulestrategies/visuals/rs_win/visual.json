@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "rs_win",
+  "position": {
+    "x": 860,
+    "y": 85,
+    "z": 11,
+    "height": 615,
+    "width": 400,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_strategy_backtest"
+                    }
+                  },
+                  "Property": "strategy"
+                }
+              },
+              "queryRef": "fact_strategy_backtest.strategy",
+              "nativeQueryRef": "strategy",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_strategy_backtest"
+                    }
+                  },
+                  "Property": "Avg Win Rate %"
+                }
+              },
+              "queryRef": "fact_strategy_backtest.Avg Win Rate %",
+              "nativeQueryRef": "Avg Win Rate %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Win rate'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

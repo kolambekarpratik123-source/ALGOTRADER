@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "tr_table",
+  "position": {
+    "x": 660,
+    "y": 85,
+    "z": 21,
+    "height": 615,
+    "width": 600,
+    "tabOrder": 21
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "trade_id"
+                }
+              },
+              "queryRef": "fact_trade.trade_id",
+              "nativeQueryRef": "trade_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "fact_trade.date",
+              "nativeQueryRef": "date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "symbol"
+                }
+              },
+              "queryRef": "fact_trade.symbol",
+              "nativeQueryRef": "symbol"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "side"
+                }
+              },
+              "queryRef": "fact_trade.side",
+              "nativeQueryRef": "side"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "quantity"
+                }
+              },
+              "queryRef": "fact_trade.quantity",
+              "nativeQueryRef": "quantity"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "price"
+                }
+              },
+              "queryRef": "fact_trade.price",
+              "nativeQueryRef": "price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "pnl"
+                }
+              },
+              "queryRef": "fact_trade.pnl",
+              "nativeQueryRef": "pnl"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "reason"
+                }
+              },
+              "queryRef": "fact_trade.reason",
+              "nativeQueryRef": "reason"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trade log'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

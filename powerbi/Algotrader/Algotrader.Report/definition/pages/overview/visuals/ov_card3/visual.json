@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ov_card3",
+  "position": {
+    "x": 641,
+    "y": 85,
+    "z": 13,
+    "height": 110,
+    "width": 197,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_run"
+                    }
+                  },
+                  "Property": "Max Drawdown %"
+                }
+              },
+              "queryRef": "dim_run.Max Drawdown %",
+              "nativeQueryRef": "Max Drawdown %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

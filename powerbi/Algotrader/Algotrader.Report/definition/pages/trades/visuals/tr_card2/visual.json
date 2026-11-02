@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "tr_card2",
+  "position": {
+    "x": 340,
+    "y": 85,
+    "z": 12,
+    "height": 100,
+    "width": 150,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "Realised P&L"
+                }
+              },
+              "queryRef": "fact_trade.Realised P&L",
+              "nativeQueryRef": "Realised P&L"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

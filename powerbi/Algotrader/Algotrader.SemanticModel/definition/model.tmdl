@@ -1,0 +1,17 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DataFolder", "dim_run", "dim_date", "dim_stock", "fact_portfolio_daily", "fact_trade", "fact_prediction", "fact_strategy_backtest"]
+
+ref table dim_run
+ref table dim_date
+ref table dim_stock
+ref table fact_portfolio_daily
+ref table fact_trade
+ref table fact_prediction
+ref table fact_strategy_backtest

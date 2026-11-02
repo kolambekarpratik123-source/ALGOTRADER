@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "tr_card0",
+  "position": {
+    "x": 20,
+    "y": 85,
+    "z": 10,
+    "height": 100,
+    "width": 150,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "Closed Trades"
+                }
+              },
+              "queryRef": "fact_trade.Closed Trades",
+              "nativeQueryRef": "Closed Trades"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,27 @@
+# Core
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Data & analysis
+pandas>=2.1.0
+numpy>=1.26.0
+ta>=0.11.0
+
+# HTTP / WebSocket (broker APIs)
+httpx>=0.26.0
+websockets>=12.0
+
+# Scheduling & CLI
+schedule>=1.2.0
+rich>=13.7.0
+click>=8.1.0
+
+# Dashboard
+streamlit>=1.30.0
+plotly>=5.18.0
+yfinance>=0.2.40
+
+# Tests
+pytest>=8.0.0
+scikit-learn>=1.4.0

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ov_equity",
+  "position": {
+    "x": 20,
+    "y": 210,
+    "z": 20,
+    "height": 490,
+    "width": 1240,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "dim_date.date",
+              "nativeQueryRef": "date",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_portfolio_daily"
+                    }
+                  },
+                  "Property": "Portfolio Value"
+                }
+              },
+              "queryRef": "fact_portfolio_daily.Portfolio Value",
+              "nativeQueryRef": "Portfolio Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_portfolio_daily"
+                    }
+                  },
+                  "Property": "Benchmark Value"
+                }
+              },
+              "queryRef": "fact_portfolio_daily.Benchmark Value",
+              "nativeQueryRef": "Benchmark Value"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Portfolio value: ranker vs. holding every stock (Rs)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

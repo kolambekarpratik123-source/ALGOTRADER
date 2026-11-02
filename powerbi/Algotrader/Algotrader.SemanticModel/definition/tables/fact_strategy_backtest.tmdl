@@ -1,0 +1,132 @@
+table fact_strategy_backtest
+	lineageTag: 81946fd1-b3a8-5e04-bd61-ba9dda8eb15d
+
+	measure 'Avg Strategy Return %' =
+			AVERAGE ( fact_strategy_backtest[total_return_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: 2ce53c6e-51c2-54d3-b86d-cf30f890a745
+
+	measure 'Avg Buy-Hold Return %' =
+			AVERAGE ( fact_strategy_backtest[buy_hold_return_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: acc9441a-15a2-5cde-ab94-d7ab5c24a72f
+
+	measure 'Avg Win Rate %' =
+			AVERAGE ( fact_strategy_backtest[win_rate_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: cc9abea0-7909-50aa-a11f-a02b60ead619
+
+	column data_source
+		dataType: string
+		lineageTag: 9296b405-d2fa-517c-b65f-082511feba0c
+		summarizeBy: none
+		sourceColumn: data_source
+
+		annotation SummarizationSetBy = User
+
+	column strategy
+		dataType: string
+		lineageTag: 003b9be4-da3b-51fb-9f7d-63f5fd61677c
+		summarizeBy: none
+		sourceColumn: strategy
+
+		annotation SummarizationSetBy = User
+
+	column symbol
+		dataType: string
+		lineageTag: f6097f7b-fd9e-5d7e-a29f-1b3710e81728
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = User
+
+	column period_start
+		dataType: string
+		lineageTag: a34c444b-88c5-5b65-bf89-bdf92f656264
+		summarizeBy: none
+		sourceColumn: period_start
+
+		annotation SummarizationSetBy = User
+
+	column period_end
+		dataType: string
+		lineageTag: a3f8d5e3-1006-5240-918a-158aa0d97607
+		summarizeBy: none
+		sourceColumn: period_end
+
+		annotation SummarizationSetBy = User
+
+	column total_return_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: ecb760c5-bb8c-5621-a5eb-1d94ccd051e9
+		summarizeBy: none
+		sourceColumn: total_return_pct
+
+		annotation SummarizationSetBy = User
+
+	column buy_hold_return_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 2a6d13f8-2ff7-53bb-9d46-b8745cf07cc7
+		summarizeBy: none
+		sourceColumn: buy_hold_return_pct
+
+		annotation SummarizationSetBy = User
+
+	column trade_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 944e81fa-52e0-5e1c-b04b-4182437e6aa2
+		summarizeBy: none
+		sourceColumn: trade_count
+
+		annotation SummarizationSetBy = User
+
+	column win_rate_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 8161f2a5-291a-532b-b5f0-84f2d693585b
+		summarizeBy: none
+		sourceColumn: win_rate_pct
+
+		annotation SummarizationSetBy = User
+
+	column max_drawdown_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 5b1d0d07-0fd3-54ed-8962-f31ef6333547
+		summarizeBy: none
+		sourceColumn: max_drawdown_pct
+
+		annotation SummarizationSetBy = User
+
+	column sharpe
+		dataType: double
+		formatString: 0.00
+		lineageTag: 02f29c93-a9c7-5304-bdef-ec1fbc604ac0
+		summarizeBy: none
+		sourceColumn: sharpe
+
+		annotation SummarizationSetBy = User
+
+	column total_costs
+		dataType: double
+		formatString: #,0
+		lineageTag: c3eda10d-089f-55ed-822a-205f0bb868c4
+		summarizeBy: none
+		sourceColumn: total_costs
+
+		annotation SummarizationSetBy = User
+
+	partition fact_strategy_backtest = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_strategy_backtest.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"data_source", type text}, {"strategy", type text}, {"symbol", type text}, {"period_start", type text}, {"period_end", type text}, {"total_return_pct", type number}, {"buy_hold_return_pct", type number}, {"trade_count", Int64.Type}, {"win_rate_pct", type number}, {"max_drawdown_pct", type number}, {"sharpe", type number}, {"total_costs", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,4 @@
+expression DataFolder = "F:\Algotrader2\Algotrader\data\exports\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 26ae5d62-1854-5b18-b898-72c3bed10890
+
+	annotation PBI_ResultType = Text

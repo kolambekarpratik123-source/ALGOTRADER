@@ -1,0 +1,136 @@
+table fact_trade
+	lineageTag: 062eadb6-51e0-5eb4-9714-5e43ba524627
+
+	/// Profit from closed trades, after all charges
+	measure 'Realised P&L' =
+			CALCULATE ( SUM ( fact_trade[pnl] ), fact_trade[side] = "SELL" )
+		formatString: #,0
+		lineageTag: f16859b4-01d8-5854-918e-dcdbabd59472
+
+	/// Brokerage, taxes and fees paid
+	measure 'Trading Costs' =
+			SUM ( fact_trade[charges] )
+		formatString: #,0
+		lineageTag: a5edb29f-804e-5d60-a847-6fbb16a06a07
+
+	measure 'Closed Trades' =
+			CALCULATE ( COUNTROWS ( fact_trade ), fact_trade[side] = "SELL" )
+		formatString: #,0
+		lineageTag: 966f4bf3-6363-5234-9c44-18f3f973c86e
+
+	/// Share of closed trades that made money
+	measure 'Win Rate %' =
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( fact_trade ), fact_trade[side] = "SELL", fact_trade[pnl] > 0 ),
+			    [Closed Trades]
+			)
+		formatString: 0.0%
+		lineageTag: 4713a1bb-20ae-56d6-afd1-0402d9fe3bff
+
+	column trade_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c68ee0b1-f435-58e6-ba6d-2398a91c7060
+		summarizeBy: none
+		sourceColumn: trade_id
+
+		annotation SummarizationSetBy = User
+
+	column run_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f6790db-c7f4-5cb3-8744-f69d41125233
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = User
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: fc35429c-6555-5e75-a27d-b8bc1d35a6cc
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = User
+
+	column symbol
+		dataType: string
+		lineageTag: 915d2246-7bfd-5ff3-a99b-f2afa26e496e
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = User
+
+	column side
+		dataType: string
+		lineageTag: a8ba9a65-e675-5b04-89bd-ea6db636d98e
+		summarizeBy: none
+		sourceColumn: side
+
+		annotation SummarizationSetBy = User
+
+	column quantity
+		dataType: int64
+		formatString: #,0
+		lineageTag: 472788c3-0acb-5c27-a652-d8f6f086e540
+		summarizeBy: none
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = User
+
+	column price
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 8849f38e-aec2-50c6-93db-467412acf5af
+		summarizeBy: none
+		sourceColumn: price
+
+		annotation SummarizationSetBy = User
+
+	column value
+		dataType: double
+		formatString: #,0
+		lineageTag: 9d3bc442-41dc-5556-9ed4-bfbfd726f27a
+		summarizeBy: none
+		sourceColumn: value
+
+		annotation SummarizationSetBy = User
+
+	column charges
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 189e3963-44e9-5f79-9e72-a2f038833009
+		summarizeBy: none
+		sourceColumn: charges
+
+		annotation SummarizationSetBy = User
+
+	column pnl
+		dataType: double
+		formatString: #,0
+		lineageTag: 4e95e0c8-2829-52bc-bd1d-11b6f54f3b2a
+		summarizeBy: none
+		sourceColumn: pnl
+
+		annotation SummarizationSetBy = User
+
+	column reason
+		dataType: string
+		lineageTag: a80dac88-6787-51f4-8bff-d968b5955715
+		summarizeBy: none
+		sourceColumn: reason
+
+		annotation SummarizationSetBy = User
+
+	partition fact_trade = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_trade.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"trade_id", Int64.Type}, {"run_id", Int64.Type}, {"date", type date}, {"symbol", type text}, {"side", type text}, {"quantity", Int64.Type}, {"price", type number}, {"value", type number}, {"charges", type number}, {"pnl", type number}, {"reason", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,247 @@
+table dim_run
+	lineageTag: af9862b7-2d14-53a9-8a3f-78329aae59e8
+
+	/// Ranker return over the test period, after costs
+	measure 'Total Return %' =
+			AVERAGE ( dim_run[total_return_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: 225fa44e-24d5-5d47-ac13-94a0a4da0e20
+
+	/// Return from holding every stock equally
+	measure 'Benchmark Return %' =
+			AVERAGE ( dim_run[benchmark_return_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: c813de4a-70e9-5d7d-b9cb-bc0b8c829559
+
+	/// Ranker minus benchmark
+	measure 'Excess Return %' =
+			[Total Return %] - [Benchmark Return %]
+		formatString: 0.0%
+		lineageTag: 5eb0fc1e-f5ed-5a0f-b9a8-372881711d48
+
+	/// Largest fall from a peak
+	measure 'Max Drawdown %' =
+			-MAX ( dim_run[max_drawdown_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: 8f1bd47f-9fae-58aa-bcaf-0b28ce165fae
+
+	/// Worst calendar month
+	measure 'Worst Month %' =
+			MIN ( dim_run[worst_month_pct] ) / 100
+		formatString: 0.0%
+		lineageTag: b0990e7d-4683-53d8-95b5-a03e2d737a9e
+
+	/// Prediction accuracy: rank correlation of score vs actual return. 0 = no skill
+	measure 'Avg IC' =
+			AVERAGE ( dim_run[ic] )
+		formatString: 0.000
+		lineageTag: c9ec6425-90a4-5859-a3a5-f58e75eef773
+
+	/// Number of runs where the ranker beat holding everything
+	measure 'Runs Beating Benchmark' =
+			COUNTROWS ( FILTER ( dim_run, dim_run[total_return_pct] > dim_run[benchmark_return_pct] ) )
+		formatString: 0
+		lineageTag: 5a2a9255-d0e8-54cd-af20-71fbff494743
+
+	measure 'Starting Capital' =
+			MAX ( dim_run[initial_capital] )
+		formatString: #,0
+		lineageTag: 8a53bbc1-f99c-5568-abca-5d8165c8209e
+
+	column run_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a14a51e8-2197-5c2b-bb35-d2ba7d0a7698
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = User
+
+	column created_at
+		dataType: string
+		lineageTag: 9f9cdf11-6d25-5fd4-bd22-fded2bf2a797
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = User
+
+	column data_source
+		dataType: string
+		lineageTag: 64adf9ea-7425-58db-8085-9682b195450c
+		summarizeBy: none
+		sourceColumn: data_source
+
+		annotation SummarizationSetBy = User
+
+	column market_type
+		dataType: string
+		lineageTag: f0fef14f-7ade-5718-b38d-f567c84ac60e
+		summarizeBy: none
+		sourceColumn: market_type
+
+		annotation SummarizationSetBy = User
+
+	column seed
+		dataType: int64
+		formatString: 0
+		lineageTag: d64992e8-bce5-5952-8294-6bc6eaf06adc
+		summarizeBy: none
+		sourceColumn: seed
+
+		annotation SummarizationSetBy = User
+
+	column signal_strength
+		dataType: double
+		formatString: 0.0
+		lineageTag: 0822345f-ef81-5ba7-8f62-76c7715e15ce
+		summarizeBy: none
+		sourceColumn: signal_strength
+
+		annotation SummarizationSetBy = User
+
+	column is_showcase
+		dataType: int64
+		formatString: 0
+		lineageTag: 111ac8f9-34cc-5b2a-9b51-ccf775f87de1
+		summarizeBy: none
+		sourceColumn: is_showcase
+
+		annotation SummarizationSetBy = User
+
+	column top_k
+		dataType: int64
+		formatString: 0
+		lineageTag: 286fb96d-f1eb-5415-b936-22f798163b92
+		summarizeBy: none
+		sourceColumn: top_k
+
+		annotation SummarizationSetBy = User
+
+	column rebalance_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 5841b64c-0682-5c78-bdd7-541be5ed1877
+		summarizeBy: none
+		sourceColumn: rebalance_days
+
+		annotation SummarizationSetBy = User
+
+	column horizon_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f5fe019-4b92-5f5c-96a9-d9e753c2ee30
+		summarizeBy: none
+		sourceColumn: horizon_days
+
+		annotation SummarizationSetBy = User
+
+	column initial_capital
+		dataType: double
+		formatString: #,0
+		lineageTag: 920f411b-0e9c-568b-bc12-b6ff0d4f4d34
+		summarizeBy: none
+		sourceColumn: initial_capital
+
+		annotation SummarizationSetBy = User
+
+	column ic
+		dataType: double
+		formatString: 0.000
+		lineageTag: 341df718-60b0-5826-9f3e-c4fccccad4e9
+		summarizeBy: none
+		sourceColumn: ic
+
+		annotation SummarizationSetBy = User
+
+	column ic_tstat
+		dataType: double
+		formatString: 0.00
+		lineageTag: 03d91654-b852-5a5d-b69c-db52d62d039b
+		summarizeBy: none
+		sourceColumn: ic_tstat
+
+		annotation SummarizationSetBy = User
+
+	column total_return_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: c9edd231-91a4-5b9f-8ca2-b0f494f258a7
+		summarizeBy: none
+		sourceColumn: total_return_pct
+
+		annotation SummarizationSetBy = User
+
+	column benchmark_return_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: a5056aa5-7a86-542f-b8db-cfa255c5504b
+		summarizeBy: none
+		sourceColumn: benchmark_return_pct
+
+		annotation SummarizationSetBy = User
+
+	column cagr_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 7ca9f2a7-4936-5163-9925-7a6fa15104b0
+		summarizeBy: none
+		sourceColumn: cagr_pct
+
+		annotation SummarizationSetBy = User
+
+	column max_drawdown_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: c4f80856-da02-5002-ab5b-4506b2c2d4aa
+		summarizeBy: none
+		sourceColumn: max_drawdown_pct
+
+		annotation SummarizationSetBy = User
+
+	column sharpe
+		dataType: double
+		formatString: 0.00
+		lineageTag: b92e30aa-91e4-5333-b63d-ce3a567a4b17
+		summarizeBy: none
+		sourceColumn: sharpe
+
+		annotation SummarizationSetBy = User
+
+	column worst_month_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: c0a7356f-9047-5653-9350-24152cec8334
+		summarizeBy: none
+		sourceColumn: worst_month_pct
+
+		annotation SummarizationSetBy = User
+
+	column total_costs
+		dataType: double
+		formatString: #,0
+		lineageTag: 62a65f89-26e4-590f-84ef-71534e2d4570
+		summarizeBy: none
+		sourceColumn: total_costs
+
+		annotation SummarizationSetBy = User
+
+	column trade_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: 79abe27c-af56-5f87-9687-2c445953d7bf
+		summarizeBy: none
+		sourceColumn: trade_count
+
+		annotation SummarizationSetBy = User
+
+	partition dim_run = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_run.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"run_id", Int64.Type}, {"created_at", type text}, {"data_source", type text}, {"market_type", type text}, {"seed", Int64.Type}, {"signal_strength", type number}, {"is_showcase", Int64.Type}, {"top_k", Int64.Type}, {"rebalance_days", Int64.Type}, {"horizon_days", Int64.Type}, {"initial_capital", type number}, {"ic", type number}, {"ic_tstat", type number}, {"total_return_pct", type number}, {"benchmark_return_pct", type number}, {"cagr_pct", type number}, {"max_drawdown_pct", type number}, {"sharpe", type number}, {"worst_month_pct", type number}, {"total_costs", type number}, {"trade_count", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

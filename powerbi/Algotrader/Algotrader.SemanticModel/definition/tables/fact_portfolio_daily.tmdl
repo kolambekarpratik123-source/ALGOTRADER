@@ -1,0 +1,94 @@
+table fact_portfolio_daily
+	lineageTag: 07721811-f10f-588e-a1b9-860b5273f5be
+
+	/// Portfolio value
+	measure 'Portfolio Value' =
+			SUM ( fact_portfolio_daily[equity] )
+		formatString: #,0
+		lineageTag: bbbf8778-c2ba-5429-a0a2-5627c68072bf
+
+	/// Hold-everything value
+	measure 'Benchmark Value' =
+			SUM ( fact_portfolio_daily[benchmark_equity] )
+		formatString: #,0
+		lineageTag: 558dc5cb-3134-5d74-b49f-832c4e1d85bd
+
+	/// How far below its previous peak the portfolio is
+	measure 'Drawdown %' =
+			VAR d = MAX ( dim_date[date] )
+			VAR eq = [Portfolio Value]
+			VAR peak =
+			    CALCULATE (
+			        MAXX ( VALUES ( fact_portfolio_daily[date] ), CALCULATE ( SUM ( fact_portfolio_daily[equity] ) ) ),
+			        REMOVEFILTERS ( dim_date ),
+			        fact_portfolio_daily[date] <= d
+			    )
+			RETURN IF ( ISBLANK ( eq ), BLANK (), DIVIDE ( eq, peak ) - 1 )
+		formatString: 0.0%
+		lineageTag: 4019fd41-48aa-5443-abd6-2f442527697f
+
+	/// Return for the month (or any date range) in the current filter
+	measure 'Monthly Return %' =
+			VAR MonthStart = MIN ( dim_date[date] )
+			VAR EndDate = CALCULATE ( MAX ( fact_portfolio_daily[date] ) )
+			VAR EndVal =
+			    CALCULATE ( SUM ( fact_portfolio_daily[equity] ), REMOVEFILTERS ( dim_date ), fact_portfolio_daily[date] = EndDate )
+			VAR PrevDate =
+			    CALCULATE ( MAX ( fact_portfolio_daily[date] ), REMOVEFILTERS ( dim_date ), fact_portfolio_daily[date] < MonthStart )
+			VAR PrevVal =
+			    IF (
+			        ISBLANK ( PrevDate ),
+			        [Starting Capital],
+			        CALCULATE ( SUM ( fact_portfolio_daily[equity] ), REMOVEFILTERS ( dim_date ), fact_portfolio_daily[date] = PrevDate )
+			    )
+			RETURN IF ( ISBLANK ( EndDate ), BLANK (), DIVIDE ( EndVal, PrevVal ) - 1 )
+		formatString: 0.00%
+		lineageTag: 4466e967-a0a2-5fd6-8261-d6c148c3db46
+
+	column run_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 913497a5-f950-52af-ac30-50b753be08c0
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = User
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f542f610-5a1a-5a8f-b515-24b229309dbb
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = User
+
+	column equity
+		dataType: double
+		formatString: #,0
+		lineageTag: 008e0718-843a-5e14-88a1-77e3c7446cc2
+		summarizeBy: none
+		sourceColumn: equity
+
+		annotation SummarizationSetBy = User
+
+	column benchmark_equity
+		dataType: double
+		formatString: #,0
+		lineageTag: 5b5124d7-a3b5-5d26-83c8-b9b9a666e1db
+		summarizeBy: none
+		sourceColumn: benchmark_equity
+
+		annotation SummarizationSetBy = User
+
+	partition fact_portfolio_daily = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_portfolio_daily.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"run_id", Int64.Type}, {"date", type date}, {"equity", type number}, {"benchmark_equity", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

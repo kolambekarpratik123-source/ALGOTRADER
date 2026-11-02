@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Algotrader"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "358e3200-f8a8-5157-9a43-056a6e285ea9"
+  }
+}

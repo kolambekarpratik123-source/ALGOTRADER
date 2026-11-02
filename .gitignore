@@ -1,0 +1,27 @@
+# Secrets: Zerodha keys live here. Never commit.
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Large or personal generated data (rebuild with: python main.py report)
+data/algotrader.db
+data/exports/fact_price.csv
+data/exports/fact_prediction.csv
+data/history/
+data/state.json
+data/trades.json
+*.log
+
+# Power BI local files
+.pbi/localSettings.json
+.pbi/cache.abf
+
+# Local backups
+_backup_pre_pbir/
+powerbi/_report_backup/

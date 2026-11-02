@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ov_card5",
+  "position": {
+    "x": 1055,
+    "y": 85,
+    "z": 15,
+    "height": 110,
+    "width": 197,
+    "tabOrder": 15
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "Trading Costs"
+                }
+              },
+              "queryRef": "fact_trade.Trading Costs",
+              "nativeQueryRef": "Trading Costs"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

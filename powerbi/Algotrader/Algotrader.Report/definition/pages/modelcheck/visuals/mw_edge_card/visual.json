@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "mw_edge_card",
+  "position": {
+    "x": 20,
+    "y": 400,
+    "z": 13,
+    "height": 120,
+    "width": 300,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_prediction"
+                    }
+                  },
+                  "Property": "Pick Edge %"
+                }
+              },
+              "queryRef": "fact_prediction.Pick Edge %",
+              "nativeQueryRef": "Pick Edge %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

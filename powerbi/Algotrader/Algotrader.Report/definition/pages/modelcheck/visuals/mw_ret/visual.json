@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "mw_ret",
+  "position": {
+    "x": 440,
+    "y": 85,
+    "z": 11,
+    "height": 300,
+    "width": 400,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_run"
+                    }
+                  },
+                  "Property": "market_type"
+                }
+              },
+              "queryRef": "dim_run.market_type",
+              "nativeQueryRef": "market_type",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_run"
+                    }
+                  },
+                  "Property": "Total Return %"
+                }
+              },
+              "queryRef": "dim_run.Total Return %",
+              "nativeQueryRef": "Total Return %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_run"
+                    }
+                  },
+                  "Property": "Benchmark Return %"
+                }
+              },
+              "queryRef": "dim_run.Benchmark Return %",
+              "nativeQueryRef": "Benchmark Return %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average return vs. holding everything'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

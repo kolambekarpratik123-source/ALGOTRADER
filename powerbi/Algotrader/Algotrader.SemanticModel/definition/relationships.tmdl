@@ -1,0 +1,31 @@
+relationship 8f8fd235-a844-52a5-8f6f-f7fe83da0d67
+	fromColumn: fact_portfolio_daily.date
+	toColumn: dim_date.date
+
+relationship 1b8cdeba-40b6-53f0-b7ae-b202c4b6e7b7
+	fromColumn: fact_trade.date
+	toColumn: dim_date.date
+
+relationship 2246783d-4a97-5adc-8cf2-ade0de74c665
+	fromColumn: fact_prediction.date
+	toColumn: dim_date.date
+
+relationship 32f098b6-5800-56f8-9f50-feaaa85408fb
+	fromColumn: fact_trade.symbol
+	toColumn: dim_stock.symbol
+
+relationship 31a143f6-da74-56a2-b480-db69b603e892
+	fromColumn: fact_prediction.symbol
+	toColumn: dim_stock.symbol
+
+relationship 8d15d6e5-8491-53b0-ba1f-2e1fedfdbfca
+	fromColumn: fact_portfolio_daily.run_id
+	toColumn: dim_run.run_id
+
+relationship bad711b3-93af-5fbd-9027-566ef58dda98
+	fromColumn: fact_trade.run_id
+	toColumn: dim_run.run_id
+
+relationship 1640feef-dc52-5b00-9fe9-1b41798eeda3
+	fromColumn: fact_prediction.run_id
+	toColumn: dim_run.run_id

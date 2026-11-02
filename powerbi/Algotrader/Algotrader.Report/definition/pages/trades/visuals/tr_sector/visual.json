@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "tr_sector",
+  "position": {
+    "x": 20,
+    "y": 200,
+    "z": 20,
+    "height": 500,
+    "width": 620,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_stock"
+                    }
+                  },
+                  "Property": "sector"
+                }
+              },
+              "queryRef": "dim_stock.sector",
+              "nativeQueryRef": "sector",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_trade"
+                    }
+                  },
+                  "Property": "Realised P&L"
+                }
+              },
+              "queryRef": "fact_trade.Realised P&L",
+              "nativeQueryRef": "Realised P&L"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Realised P&L by sector (Rs)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
